@@ -57,6 +57,9 @@ class CategoriesController extends Controller
     public function edit(CategroryRequest $request,CateModel $cateModel)
     {
         $request->validated();
+        if(!$request->has('id')){
+            return response()->json(['check'=>false,'msg'=>'Id is required']);
+        }
         CateModel::where('id',$request->id)->update(['name'=>$request->name]);
        $cates= $this->getAll();
         return response()->json(['check'=>true,'cates'=>$cates]);
