@@ -1,6 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie';
+
 function Navbar() {
+    const setLogout = () => {
+        Cookies.remove('token');
+        window.location.replace('/');
+    }
     return (
         <>
             <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -39,6 +45,11 @@ function Navbar() {
                             <li className="nav-item">
                                 <Link className="nav-link" to={'/bills'}>
                                     Bills
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" onClick={(e) => setLogout()} to={'/#'}>
+                                    Log out
                                 </Link>
                             </li>
                         </ul>
