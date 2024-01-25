@@ -69,6 +69,9 @@ class ProductController extends Controller
     public function update(ProductRequest $request, ProductModel $productModel)
     {
         $request->validated();
+        if(!$request->has('id')){
+            return response()->json(['check'=>false,'msg'=>'Id Product is required']);
+        }
         if(!$request->has('image')){
             ProductModel::where('id',$request->id)->update(['name'=>$request->name,'unit'=>$request->unit,'quantity'=>$request->quantity,'price'=>$request->price,'idCate'=>$request->idCate]);
         }else{
