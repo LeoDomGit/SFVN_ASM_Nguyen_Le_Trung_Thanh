@@ -13,7 +13,7 @@ function Products() {
             setCategories(res)
         });
         fetch(api + 'admin/products').then(res => res.json()).then((res) => {
-            setProducts(res);
+            setProducts(res.data);
         });
     }, []);
     return (

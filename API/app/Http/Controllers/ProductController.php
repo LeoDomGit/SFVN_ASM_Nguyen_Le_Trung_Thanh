@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $result = ProductModel::all();
+        $result = ProductModel::all()->paginate(8);
         return $result;
     }
 

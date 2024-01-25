@@ -93,7 +93,7 @@ function AddProduct() {
                         type: 'success',
                         message: 'Product created successfully',
                     })
-                    window.location.reload();
+                    window.location.replace('/products');
 
                 }
             })
