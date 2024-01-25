@@ -8,14 +8,22 @@ function Products() {
     const image = process.env.REACT_APP_IMG_URL
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
+    const [page, setPage] = useState(1);
+
+    const [pageNumbers, setPageArr] = useState([]);
     useEffect(() => {
         fetch(api + 'admin/category').then(res => res.json()).then((res) => {
             setCategories(res)
         });
-        fetch(api + 'admin/products').then(res => res.json()).then((res) => {
-            setProducts(res.data);
-        });
+
     }, []);
+    useEffect(() => {
+        fetch(api + 'admin/products?page=' + page).then(res => res.json()).then((res) => {
+            setProducts(res.data);
+            const pageNumbers = Array.from({ length: res.last_page }, (_, index) => index + 1);
+            setPageArr(pageNumbers);
+        });
+    }, [page])
     return (
         <>
             <Navbar />
@@ -33,7 +41,7 @@ function Products() {
                             {products.length > 0 && products.map((product, index) => (
                                 <div key={index} className='col-md-3  mb-3'>
                                     <div className="card" style={{ width: "100%" }}>
-                                        <img style={{ maxHeight: '190px', width: 'auto', margin: '0px auto' }} src={image + product.image} className="card-img-top" alt="..." />
+                                        <img style={{ maxHeight: '190px', maxWidth: '100%', margin: '0px auto' }} src={image + product.image} className="card-img-top" alt="..." />
                                         <div className="card-body">
                                             <h5 className="card-title">{product.name}</h5>
                                             <p className="card-text">
@@ -48,6 +56,20 @@ function Products() {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <div className="row">
+                            {pageNumbers.length > 1 && (
+                                <div className='row'>
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            {pageNumbers.map((pageNumber) => (
+                                                <li key={pageNumber} class="page-item"><a onClick={(e) => setPage(pageNumber)} class={page == pageNumber ? "page-link active" : "page-link"} href="#">{pageNumber}</a></li>
+
+                                            ))}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            )}
                         </div>
                     </div>
 
