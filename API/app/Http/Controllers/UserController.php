@@ -85,6 +85,8 @@ class UserController extends Controller
          $request->validated();
          if(Auth::attempt(['email' => $request->email, 'password' => $request->password,'idRole'=>1],true)){
             return response()->json(['check'=>true,'token'=>Auth::user()->remember_token]);
+         }else{
+             return response()->json(['check'=>false,'msg'=>'Wrong password or email']);
          }
     }
 
