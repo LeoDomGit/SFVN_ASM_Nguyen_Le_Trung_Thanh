@@ -32,6 +32,9 @@ class UserController extends Controller
      */
         public function editRole(RoleRequest $request){
         $request->validated();
+         if(!$request->has('id')){
+            return response()->json(['check'=>false,'msg'=>'Id role is required']);
+        }
         RoleM::where('id',$request->id)->update(['name'=>$request->name]);
         $roles= $this->getAllRoles();
         return response()->json(['check'=>true, 'roles'=>$roles]);
@@ -80,7 +83,7 @@ class UserController extends Controller
     public function checkLogin1(CheckLogin $request)
     {
          $request->validated();
-         if(Auth::attempt(['email' => $request->email, 'password' => $request->password],true)){
+         if(Auth::attempt(['email' => $request->email, 'password' => $request->password,'idRole'=>1],true)){
             return response()->json(['check'=>true,'token'=>Auth::user()->remember_token]);
          }
     }
