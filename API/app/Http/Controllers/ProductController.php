@@ -21,9 +21,10 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+   public function singleCateProduct($id)
     {
-        //
+        $result = ProductModel::where('idcate',$id)->paginate(8);
+        return $result;
     }
 
     /**

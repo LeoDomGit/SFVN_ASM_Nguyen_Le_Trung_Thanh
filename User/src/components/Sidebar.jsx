@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
-function Sidebar() {
+function Sidebar({ onCategoryChange }) {
     const url = process.env.REACT_APP_API_URL;
     const [category, setCategories] = useState([]);
+    const [cateId, setCateId] = useState(0);
+    const handleRadioChange = (e) => {
+        console.log(e.target.value);
+        const categoryValue = e.target.value;
+        setCateId(categoryValue);
+        onCategoryChange(categoryValue);
+    };
+
     useEffect(() => {
         fetch(url + 'cates').then(res => res.json()).then((res) => {
             setCategories(res);
@@ -20,7 +28,9 @@ function Sidebar() {
                                         className="form-check-input mt-0"
                                         type="radio"
                                         defaultValue=""
+                                        value={item.id}
                                         name='category'
+                                        onChange={handleRadioChange}
                                         aria-label="Radio button for following text input"
                                     />
                                 </div>

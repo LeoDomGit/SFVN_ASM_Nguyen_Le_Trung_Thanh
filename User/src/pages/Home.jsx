@@ -43,6 +43,7 @@ function Home() {
         ]
     });
     const cart = useSelector(selectCart);
+    const [idCate, setIdCate] = useState(0)
     const addToCartFunction = (item) => {
         dispatch(addToCart(item));
         notyf.open({
@@ -51,21 +52,33 @@ function Home() {
         });
     }
     const [products, setProduct] = useState([]);
-
+    const handleCategoryChange = (category) => {
+        setIdCate(category);
+    };
     useEffect(() => {
-        fetch(url + 'products?page=' + page).then(res => res.json()).then((res) => {
-            setProduct(res.data);
-            const pageNumbers = Array.from({ length: res.last_page }, (_, index) => index + 1);
-            setPageArr(pageNumbers);
-        });
-    }, [page])
+        if (idCate == 0) {
+            fetch(url + 'products?page=' + page).then(res => res.json()).then((res) => {
+                setProduct(res.data);
+                const pageNumbers = Array.from({ length: res.last_page }, (_, index) => index + 1);
+                setPageArr(pageNumbers);
+            });
+        } else {
+            setPage(1);
+            fetch(url + 'products/' + idCate + '?page=' + page).then(res => res.json()).then((res) => {
+                setProduct(res.data);
+                const pageNumbers = Array.from({ length: res.last_page }, (_, index) => index + 1);
+                setPageArr(pageNumbers);
+            });
+        }
+
+    }, [page, idCate])
     return (
         <>
             <Navbar />
             <div className='container-fluid mt-4'>
                 <div className='row'>
                     <div className='col-md-2'>
-                        <Sidebar />
+                        <Sidebar onCategoryChange={handleCategoryChange} />
                     </div>
                     <div className='col-md'>
                         <div className='row'>
@@ -95,16 +108,19 @@ function Home() {
                     <div className='col-md-2 text-end'>
 
                     </div>
-                    <div className='col-md text-end'>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                {pageNumbers.map((pageNumber) => (
-                                    <li key={pageNumber} class="page-item"><a onClick={(e) => setPage(pageNumber)} class={page == pageNumber ? "page-link active" : "page-link"} href="#">{pageNumber}</a></li>
+                    {pageNumbers.length > 1 && (
 
-                                ))}
-                            </ul>
-                        </nav>
-                    </div>
+                        <div className='col-md text-end'>
+                            <nav aria-label="Page navigation example">
+                                <ul className="pagination">
+                                    {pageNumbers.map((pageNumber) => (
+                                        <li key={pageNumber} className="page-item"><a onClick={(e) => setPage(pageNumber)} className={page == pageNumber ? "page-link active" : "page-link"} href="#">{pageNumber}</a></li>
+
+                                    ))}
+                                </ul>
+                            </nav>
+                        </div>)}
+
                 </div>
             </div>
         </>

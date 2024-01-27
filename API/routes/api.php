@@ -57,6 +57,7 @@ Route::prefix('admin')->group(function () {
 });
 Route::prefix('users')->group(function () {
     Route::get('/products', [ProductController::class,'userProduct']);
+    Route::get('/products/{id}', [ProductController::class,'singleCateProduct']);
     Route::get('/cates', [CategoriesController::class,'userCate']);
     Route::post('/bill', [BillController::class,'store']);
 
