@@ -131,6 +131,7 @@ function Cart() {
                                     <th scope="col">#</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Unit</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Total</th>
                                 </tr>
@@ -143,6 +144,7 @@ function Cart() {
                                             <img style={{ maxHeight: '200px', width: 'auto', verticalAlign: 'middle' }} src={img + item.image} />
                                         </td>
                                         <td style={{ width: '20%', verticalAlign: 'middle' }}><span>{item.name}</span></td>
+                                        <td style={{ width: '20%', verticalAlign: 'middle' }}><span>{item.unit}</span></td>
                                         <td style={{ width: '20%', verticalAlign: 'middle' }}><input type='number' className='form-control' onChange={(e) => UpdateQuantity(item.id, e.target.value)} value={item.qty} /></td>
                                         <td style={{ width: '20%', verticalAlign: 'middle' }}><input type='number' disabled className='form-control' value={item.qty * item.price} /></td>
                                     </tr>
